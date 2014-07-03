@@ -69,9 +69,15 @@ limitations under the License.
             <artifactId>flume-ng-core</artifactId>
             <version>${flume-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.10</artifactId>
+            <version>${kafka-version}</version>
+        </dependency>
     </dependencies>
 
     <properties>
         <flume-version>1.5.0</flume-version>
+        <kafka-version>0.8.1.1</kafka-version>
     </properties>
 </project>

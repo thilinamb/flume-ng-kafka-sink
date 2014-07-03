@@ -18,6 +18,9 @@
 
 package com.thilinamb.flume.sink;
 
+import kafka.javaapi.producer.Producer;
+import kafka.producer.KeyedMessage;
+import kafka.producer.ProducerConfig;
 import org.apache.flume.Channel;
 import org.apache.flume.Event;
 import org.apache.flume.EventDeliveryException;
@@ -27,9 +30,12 @@ import org.apache.flume.sink.AbstractSink;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Properties;
+
 public class StormSink extends AbstractSink {
 
     private static final Logger logger = LoggerFactory.getLogger(StormSink.class);
+    Producer<String, String> producer;
 
     @Override
     public Status process() throws EventDeliveryException {
@@ -45,6 +51,9 @@ public class StormSink extends AbstractSink {
             if (event != null) {
                 if (logger.isInfoEnabled()) {
                     logger.info("StormSink ->: " + EventHelper.dumpEvent(event));
+                    KeyedMessage<String, String> data = new KeyedMessage<String, String>("syslog", "syslog",
+                            EventHelper.dumpEvent(event));
+                    producer.send(data);
                 }
             } else {
                 // No event found, request back-off semantics from the sink runner
@@ -60,4 +69,25 @@ public class StormSink extends AbstractSink {
 
         return result;
     }
+
+    @Override
+    public synchronized void start() {
+        Properties props = new Properties();
+        props.put("metadata.broker.list", "localhost:9092");
+        props.put("serializer.class", "kafka.serializer.StringEncoder");
+        props.put("partitioner.class", "example.producer.SimplePartitioner");
+        props.put("request.required.acks", "1");
+
+        ProducerConfig config = new ProducerConfig(props);
+        producer = new Producer<String, String>(config);
+        super.start();
+    }
+
+    @Override
+    public synchronized void stop() {
+        producer.close();
+        super.stop();
+    }
+
+
 }
