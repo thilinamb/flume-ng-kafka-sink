@@ -23,7 +23,6 @@ import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
 import org.apache.flume.*;
 import org.apache.flume.conf.Configurable;
-import org.apache.flume.event.EventHelper;
 import org.apache.flume.sink.AbstractSink;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,16 +63,18 @@ public class KafkaSink extends AbstractSink implements Configurable {
             event = channel.take();
 
             if (event != null) {
+                // get the message body.
+                String eventBody = new String(event.getBody());
                 // if the metadata extractor is set, extract the topic and the key.
                 if (metaDataExtractor != null) {
-                    eventTopic = metaDataExtractor.extractTopic(EventHelper.dumpEvent(event), context);
-                    eventKey = metaDataExtractor.extractKey(EventHelper.dumpEvent(event), context);
+                    eventTopic = metaDataExtractor.extractTopic(eventBody, context);
+                    eventKey = metaDataExtractor.extractKey(eventBody, context);
                 }
                 // log the event for debugging
-                logger.debug("{Event} " + EventHelper.dumpEvent(event));
+                logger.debug("{Event} " + eventBody);
                 // create a message
                 KeyedMessage<String, String> data = new KeyedMessage<String, String>(eventTopic, eventKey,
-                        EventHelper.dumpEvent(event));
+                        eventBody);
                 // publish
                 producer.send(data);
             } else {
@@ -162,12 +163,14 @@ public class KafkaSink extends AbstractSink implements Configurable {
             }
         }
 
-        if (metaDataExtractor != null) {
+        if (metaDataExtractor == null) {
             // MetaDataExtractor is not set. So read the topic from the config.
             topic = context.getString(Constants.TOPIC, Constants.DEFAULT_TOPIC);
             if (topic.equals(Constants.DEFAULT_TOPIC)) {
                 logger.warn("The Properties 'metadata.extractor' or 'topic' is not set. Using the default topic name" +
                         Constants.DEFAULT_TOPIC);
+            } else {
+                logger.info("Using the static topic: " + topic);
             }
         }
     }
