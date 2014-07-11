@@ -24,6 +24,6 @@ public class Constants {
 
     /* Properties */
     public static final String DEFAULT_TOPIC = "default-flume-topic";
-    public static final String METADATA_EXTRACTOR = "metadata.extractor";
+    public static final String PREPROCESSOR = "preprocessor";
     public static final String TOPIC = "topic";
 }

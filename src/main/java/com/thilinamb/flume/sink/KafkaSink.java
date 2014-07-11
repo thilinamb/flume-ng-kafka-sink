@@ -36,7 +36,7 @@ import java.util.Properties;
  * This supports key and messages of type String.
  * Extension points are provided to for users to implement custom key and topic extraction
  * logic based on the message content as well as the Flume context.
- * Without implementing this extension point(MetaDataExtractor), it's possible to publish
+ * Without implementing this extension point(MessagePreprocessor), it's possible to publish
  * messages based on a static topic. In this case messages will be published to a random
  * partition.
  */
@@ -45,7 +45,7 @@ public class KafkaSink extends AbstractSink implements Configurable {
     private static final Logger logger = LoggerFactory.getLogger(KafkaSink.class);
     private Properties producerProps;
     private Producer<String, String> producer;
-    private MetaDataExtractor metaDataExtractor;
+    private MessagePreprocessor messagePreProcessor;
     private String topic;
     private Context context;
 
@@ -66,9 +66,10 @@ public class KafkaSink extends AbstractSink implements Configurable {
                 // get the message body.
                 String eventBody = new String(event.getBody());
                 // if the metadata extractor is set, extract the topic and the key.
-                if (metaDataExtractor != null) {
-                    eventTopic = metaDataExtractor.extractTopic(eventBody, context);
-                    eventKey = metaDataExtractor.extractKey(eventBody, context);
+                if (messagePreProcessor != null) {
+                    eventBody = messagePreProcessor.prepareMessage(event, context);
+                    eventTopic = messagePreProcessor.extractTopic(event, context);
+                    eventKey = messagePreProcessor.extractKey(event, context);
                 }
                 // log the event for debugging
                 logger.debug("{Event} " + eventBody);
@@ -133,38 +134,38 @@ public class KafkaSink extends AbstractSink implements Configurable {
             }
         }
 
-        // get the meta-data extractor if set
-        String metaDataExtractorClassName = context.getString(Constants.METADATA_EXTRACTOR);
+        // get the message Preprocessor if set
+        String preprocessorClassName = context.getString(Constants.PREPROCESSOR);
         // if it's set create an instance using Java Reflection.
-        if (metaDataExtractorClassName != null) {
+        if (preprocessorClassName != null) {
             try {
-                Class metaDatExtractorClazz = Class.forName(metaDataExtractorClassName.trim());
-                Object metaDataExtractorObj = metaDatExtractorClazz.newInstance();
-                if (metaDataExtractorObj instanceof MetaDataExtractor) {
-                    metaDataExtractor = (MetaDataExtractor) metaDataExtractorObj;
+                Class preprocessorClazz = Class.forName(preprocessorClassName.trim());
+                Object preprocessorObj = preprocessorClazz.newInstance();
+                if (preprocessorObj instanceof MessagePreprocessor) {
+                    messagePreProcessor = (MessagePreprocessor) preprocessorObj;
                 } else {
-                    String errorMsg = "Provided class for MetaDataExtractor does not implement " +
-                            "'com.thilinamb.flume.sink.MetaDataExtractor'";
+                    String errorMsg = "Provided class for MessagePreprocessor does not implement " +
+                            "'com.thilinamb.flume.sink.MessagePreprocessor'";
                     logger.error(errorMsg);
                     throw new IllegalArgumentException(errorMsg);
                 }
             } catch (ClassNotFoundException e) {
-                String errorMsg = "Error instantiating the MetadataExtractor implementation.";
+                String errorMsg = "Error instantiating the MessagePreprocessor implementation.";
                 logger.error(errorMsg, e);
                 throw new IllegalArgumentException(errorMsg, e);
             } catch (InstantiationException e) {
-                String errorMsg = "Error instantiating the MetadataExtractor implementation.";
+                String errorMsg = "Error instantiating the MessagePreprocessor implementation.";
                 logger.error(errorMsg, e);
                 throw new IllegalArgumentException(errorMsg, e);
             } catch (IllegalAccessException e) {
-                String errorMsg = "Error instantiating the MetadataExtractor implementation.";
+                String errorMsg = "Error instantiating the MessagePreprocessor implementation.";
                 logger.error(errorMsg, e);
                 throw new IllegalArgumentException(errorMsg, e);
             }
         }
 
-        if (metaDataExtractor == null) {
-            // MetaDataExtractor is not set. So read the topic from the config.
+        if (messagePreProcessor == null) {
+            // MessagePreprocessor is not set. So read the topic from the config.
             topic = context.getString(Constants.TOPIC, Constants.DEFAULT_TOPIC);
             if (topic.equals(Constants.DEFAULT_TOPIC)) {
                 logger.warn("The Properties 'metadata.extractor' or 'topic' is not set. Using the default topic name" +
