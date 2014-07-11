@@ -21,7 +21,8 @@ limitations under the License.
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.thilinamb.flume</groupId>
-    <artifactId>flume-storm-sink</artifactId>
+    <artifactId>flume-kafka-sink</artifactId>
+    <description>An Apache Flume Sink implementation to publish messages to Apache Kafka 0.8.x.</description>
     <version>0.0.1</version>
     <name>Flume Storm Sink</name>
     <packaging>jar</packaging>
