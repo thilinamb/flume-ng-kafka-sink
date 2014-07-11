@@ -1,4 +1,4 @@
-##  Flume-Kafka-sink
+##  Flume-Kafka-Sink
 
 This is a [Flume](https://flume.apache.org) Sink implementation that can publish data to a [Kafka](http://kafka.apache.org) topic.
 The objective is to integrate Flume with Kafka so that pull based processing systems such as [Apache Storm](https://storm.incubator.apache.org) can process the data coming through various Flume sources such as Syslog.
@@ -9,3 +9,8 @@ The objective is to integrate Flume with Kafka so that pull based processing sys
 
 ## Building the project
 [Apache Maven](http://maven.apache.org) is used to build the project. This [page](http://maven.apache.org/download.cgi) contains the download links and an installation guide for various operating systems.
+
+Issue the command: > mvn clean install
+
+This will compile the project and the binary artifacts will be copied into '${project_root}/target' directory.
+
