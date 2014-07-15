@@ -21,25 +21,32 @@ limitations under the License.
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.thilinamb.flume</groupId>
-    <artifactId>flume-kafka-sink</artifactId>
+    <artifactId>flume-kafka-sink-parent</artifactId>
     <description>An Apache Flume Sink implementation to publish messages to Apache Kafka 0.8.x.</description>
-    <version>0.0.1</version>
-    <name>Flume Storm Sink</name>
-    <packaging>jar</packaging>
+    <version>${flume-kafka-sink-version}</version>
+    <name>Flume Kafka Sink</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>impl</module>    
+        <module>dist</module>
+    </modules>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.4</version>
+          <configuration>
+            <descriptors>
+              <descriptor>src/assemble/bin.xml</descriptor>
+            </descriptors>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 
     <repositories>
         <repository>
@@ -78,6 +85,7 @@ limitations under the License.
     </dependencies>
 
     <properties>
+        <flume-kafka-sink-version>0.5.0</flume-kafka-sink-version>
         <flume-version>1.5.0</flume-version>
         <kafka-version>0.8.1.1</kafka-version>
     </properties>

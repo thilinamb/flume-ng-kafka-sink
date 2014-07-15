@@ -1,0 +1,37 @@
+<assembly>
+    <id>bin</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <fileSets>
+    <fileSet>
+      <directory>../</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>README*</include>
+        <include>LICENSE*</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+
+    <dependencySets>
+    <dependencySet>
+        <useTransitiveFiltering>true</useTransitiveFiltering>
+        <outputDirectory>lib</outputDirectory>
+        <includes>
+            <include>com.thilinamb.flume:flume-kafka-sink-impl</include>
+            <include>org.apache.kafka:kafka_2.10</include>
+            <include>com.yammer.metrics:metrics-core</include>
+            <include>org.scala-lang:scala-library</include>
+        </includes>
+        <excludes>
+            <exclude>jline:jline</exclude>
+            <exclude>net.sf.jopt-simple:jopt-simple</exclude>
+            <exclude>org.xerial.snappy:snappy-java</exclude>
+            <exclude>org.apache.zookeeper:zookeeper</exclude>
+            <exclude>com.101tec:zkclient</exclude>
+        </excludes>
+    </dependencySet>
+  </dependencySets>
+</assembly>
