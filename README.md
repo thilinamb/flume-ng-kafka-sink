@@ -55,7 +55,7 @@ After implementing the preprocessor, compile it into a jar and add into the Flum
 a1.sinks.k1.preprocessor = com.thilinamb.flume.sink.example.SimpleMessagePreprocessor
 
 ## Questions and Feedback
-Please file a bug or contact me via email with respect to any bug you encounter or any other feedback.
+Please file a bug or contact me via [email](mailto:thilinamb@gmail.com) with respect to any bug you encounter or any other feedback.
 
 
 
