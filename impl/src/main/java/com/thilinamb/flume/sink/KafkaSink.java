@@ -67,7 +67,7 @@ public class KafkaSink extends AbstractSink implements Configurable {
                 String eventBody = new String(event.getBody());
                 // if the metadata extractor is set, extract the topic and the key.
                 if (messagePreProcessor != null) {
-                    eventBody = messagePreProcessor.prepareMessage(event, context);
+                    eventBody = messagePreProcessor.transformMessage(event, context);
                     eventTopic = messagePreProcessor.extractTopic(event, context);
                     eventKey = messagePreProcessor.extractKey(event, context);
                 }

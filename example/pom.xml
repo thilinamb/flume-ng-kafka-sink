@@ -26,37 +26,25 @@ limitations under the License.
         <version>${flume-kafka-sink-version}</version>
     </parent>
 
-    <artifactId>flume-kafka-sink-dist</artifactId>
-    <description>The binary distribution</description>
-    <packaging>pom</packaging>
+    <artifactId>flume-kafka-sink-example</artifactId>
+    <description>An example preprocessor implementation.</description>
+    <packaging>jar</packaging>
 
     <build>
         <plugins>
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>distribution-package</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <archiverConfig>
-                                <fileMode>420</fileMode>
-                                <directoryMode>493</directoryMode>
-                                <defaultDirectoryMode>493</defaultDirectoryMode>
-                            </archiverConfig>
-                            <descriptors>
-                                <descriptor>src/main/assembly/bin.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
 
+ 
     <dependencies>
         <dependency>
             <groupId>com.thilinamb.flume</groupId>

@@ -29,6 +29,7 @@ limitations under the License.
 
     <modules>
         <module>impl</module>    
+        <module>example</module>
         <module>dist</module>
     </modules>
 

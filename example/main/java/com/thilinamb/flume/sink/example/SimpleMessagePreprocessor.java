@@ -70,7 +70,7 @@ public class SimpleMessagePreprocessor implements MessagePreprocessor {
      * @return modified message of the form: timestamp + ":" + original message body
      */
     @Override
-    public String prepareMessage(Event event, Context context) {
+    public String transformMessage(Event event, Context context) {
         String messageBody = new String(event.getBody());
         String timestampStr = event.getHeaders().get("timestamp");
         if(timestampStr != null){

@@ -25,7 +25,7 @@ import org.apache.flume.Event;
  * This class provides the ability to use a custom key/topic extraction mechanism
  * and message pre-processing before publishing to Kafka.
  *
- * By implementing <code>prepareMessage</code> method, it's possible to modify the
+ * By implementing <code>transformMessage</code> method, it's possible to modify the
  * message received by the sink before published into Kafka.
  * For instance, it's possible to augment the message with the informaiton contained
  * in a Flume event header.
@@ -76,5 +76,5 @@ public interface MessagePreprocessor {
      * @param context Flume context
      * @return message that will be published into Kafka
      */
-    public String prepareMessage(Event event, Context context);
+    public String transformMessage(Event event, Context context);
 }
