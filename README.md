@@ -5,7 +5,7 @@ The objective is to integrate Flume with Kafka so that pull based processing sys
 
 # Example Usecase
 Realtime Syslog processing architecture using Apache Flume, Apache Kafka and Apache Storm.
-![Realtime Syslog Processing](/flume-kafka-sink-archi.png)
+![Realtime Syslog Processing](/realtime-syslog-processing-archi.png)
 
 ## Dependency Versions
 - Apache Flume - 1.5.0
