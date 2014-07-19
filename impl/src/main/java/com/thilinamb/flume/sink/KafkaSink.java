@@ -72,7 +72,9 @@ public class KafkaSink extends AbstractSink implements Configurable {
                     eventKey = messagePreProcessor.extractKey(event, context);
                 }
                 // log the event for debugging
-                logger.debug("{Event} " + eventBody);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("{Event} " + eventBody);
+                }
                 // create a message
                 KeyedMessage<String, String> data = new KeyedMessage<String, String>(eventTopic, eventKey,
                         eventBody);
@@ -130,7 +132,9 @@ public class KafkaSink extends AbstractSink implements Configurable {
                 // remove the prefix
                 key = key.substring(Constants.PROPERTY_PREFIX.length() + 1, key.length());
                 producerProps.put(key.trim(), value);
-                logger.debug("Reading a Kafka Producer Property: key: " + key + ", value: " + value);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Reading a Kafka Producer Property: key: " + key + ", value: " + value);
+                }
             }
         }
 
