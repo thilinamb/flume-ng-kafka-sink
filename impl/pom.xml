@@ -27,6 +27,7 @@ limitations under the License.
     </parent>
 
     <artifactId>flume-kafka-sink-impl</artifactId>
+    <name>Flume-Kafka-Sink Implementation</name>
     <packaging>jar</packaging>
 
     <build>

@@ -27,7 +27,7 @@ limitations under the License.
     </parent>
 
     <artifactId>flume-kafka-sink-dist</artifactId>
-    <description>The binary distribution</description>
+    <name>Flume-Kafka-Sink Binary Distribution</name>
     <packaging>pom</packaging>
 
     <build>

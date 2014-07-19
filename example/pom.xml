@@ -27,6 +27,7 @@ limitations under the License.
     </parent>
 
     <artifactId>flume-kafka-sink-example</artifactId>
+    <name>Flume-Kafka-Sink Preprocessor Example</name>
     <description>An example preprocessor implementation.</description>
     <packaging>jar</packaging>
 
