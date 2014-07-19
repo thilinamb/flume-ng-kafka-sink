@@ -43,7 +43,7 @@ Following parameters are supported at the moment.
 	- This is an extension point provided support dynamic topics and keys. Also it's possible to use it to support message modification before publishing to Kafka. The full qualified class name of the preprocessor implementation should be provided here. Refer the next subsection to read more about preprocessors. If a preprocessor is not configured, then a static topic should be used as explained before. And the messages will not be keyed. In a primitive setup, configuring a static topic would suffice.
 
 - **Kafka Producer Properties**
-	- These properties are used to configure the Kafka Producer. Any producer property supported by Kafka can be used. The only requirement is to prepend the property name with the prefix 'kafka.'. For instance, the 'metadata.broker.list' property should be 'kafka.metadata.broker.list'. Please take a look at the sample configuration provided in the 'conf' directory of the distribution.
+	- These properties are used to configure the Kafka Producer. Any producer property supported by Kafka can be used. The only requirement is to prepend the property name with the prefix 'kafka.'. For instance, the 'metadata.broker.list' property should be 'kafka.metadata.broker.list'. Please take a look at the [sample configuration](https://github.com/thilinamb/flume-kafka-sink/blob/master/conf/flume-kafka.conf) provided in the 'conf' directory of the distribution.
     
 ## Implementing a preprocessor
 Implementing a custom preprocessor is useful to support dynamic topics and keys. Also they support message transformations. The requirement is to implement the interface 'com.thilinamb.flume.sink.MessagePreprocessor'. The java-docs of this interface provides a detailed description of the methods, parameters, etc. There are three methods that needs to be implemented. The method names are self explainatory.
@@ -52,7 +52,7 @@ Implementing a custom preprocessor is useful to support dynamic topics and keys.
 - public String extractTopic(Event event, Context context);
 - public String transformMessage(Event event, Context context);
 
-The class 'com.thilinamb.flume.sink.example.SimpleMessagePreprocessor' inside the 'example' module is an example implementation of a preprocessor.
+The class '[com.thilinamb.flume.sink.example.SimpleMessagePreprocessor](https://github.com/thilinamb/flume-kafka-sink/blob/master/example/src/main/java/com/thilinamb/flume/sink/example/SimpleMessagePreprocessor.java)' inside the 'example' module is an example implementation of a preprocessor.
 
 After implementing the preprocessor, compile it into a jar and add into the Flume classpath with the rest of the jars and configure the 'preprocessor' parameter with its fully qualified classname. For instance;
 
