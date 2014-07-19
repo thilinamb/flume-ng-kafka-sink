@@ -3,6 +3,10 @@
 This is a [Flume](https://flume.apache.org) Sink implementation that can publish data to a [Kafka](http://kafka.apache.org) topic.
 The objective is to integrate Flume with Kafka so that pull based processing systems such as [Apache Storm](https://storm.incubator.apache.org) can process the data coming through various Flume sources such as Syslog.
 
+# Example Usecase
+Realtime Syslog processing architecture using Apache Flume, Apache Kafka and Apache Storm.
+![Realtime Syslog Processing](//flume-kafka-sink-archi.png)
+
 ## Dependency Versions
 - Apache Flume - 1.5.0
 - Apache Kafka - 0.8.1.1
@@ -48,7 +52,7 @@ Implementing a custom preprocessor is useful to support dynamic topics and keys.
 - public String extractTopic(Event event, Context context);
 - public String transformMessage(Event event, Context context);
 
-The class 'com.thilinamb.flume.sink.example.SimpleMessagePreprocessor' is an example implementation of a preprocessor.
+The class 'com.thilinamb.flume.sink.example.SimpleMessagePreprocessor' inside the 'example' module is an example implementation of a preprocessor.
 
 After implementing the preprocessor, compile it into a jar and add into the Flume classpath with the rest of the jars and configure the 'preprocessor' parameter with its fully qualified classname. For instance;
 
