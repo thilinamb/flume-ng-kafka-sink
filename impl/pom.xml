@@ -56,6 +56,12 @@ limitations under the License.
             <artifactId>kafka_2.10</artifactId>
             <version>${kafka-version}</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
