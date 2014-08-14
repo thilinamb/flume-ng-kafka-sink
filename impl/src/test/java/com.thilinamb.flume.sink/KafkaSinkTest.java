@@ -71,26 +71,13 @@ public class KafkaSinkTest {
 
     @Test
     public void testStaticTopic(){
-        Sink kafkaSink = new KafkaSink();
         Context context = prepareDefaultContext();
         // add the static topic
         context.put(Constants.TOPIC, TestConstants.STATIC_TOPIC);
-        Configurables.configure(kafkaSink, context);
-        Channel memoryChannel = new MemoryChannel();
-        Configurables.configure(memoryChannel, context);
-        kafkaSink.setChannel(memoryChannel);
-        kafkaSink.start();
-
         String msg = "static-topic-test";
-        Transaction tx = memoryChannel.getTransaction();
-        tx.begin();
-        Event event = EventBuilder.withBody(msg.getBytes());
-        memoryChannel.put(event);
-        tx.commit();
-        tx.close();
 
         try {
-            Sink.Status status = kafkaSink.process();
+            Sink.Status status = prepareAndSend(context, msg);
             if (status == Sink.Status.BACKOFF) {
                 fail("Error Occurred");
             }
@@ -105,28 +92,15 @@ public class KafkaSinkTest {
 
     @Test
     public void testPreprocessorForCustomKey(){
-        Sink kafkaSink = new KafkaSink();
         Context context = prepareDefaultContext();
         // configure the static topic
         context.put(Constants.TOPIC, TestConstants.STATIC_TOPIC);
         // configure the preprocessor
         context.put(Constants.PREPROCESSOR, "com.thilinamb.flume.sink.preprocessor.ModifyKeyPreprocessor");
-        Configurables.configure(kafkaSink, context);
-        Channel memoryChannel = new MemoryChannel();
-        Configurables.configure(memoryChannel, context);
-        kafkaSink.setChannel(memoryChannel);
-        kafkaSink.start();
-
         String msg = "custom-key-test";
-        Transaction tx = memoryChannel.getTransaction();
-        tx.begin();
-        Event event = EventBuilder.withBody(msg.getBytes());
-        memoryChannel.put(event);
-        tx.commit();
-        tx.close();
 
         try {
-            Sink.Status status = kafkaSink.process();
+            Sink.Status status = prepareAndSend(context, msg);
             if (status == Sink.Status.BACKOFF) {
                 fail("Error Occurred");
             }
@@ -145,28 +119,15 @@ public class KafkaSinkTest {
 
     @Test
     public void testPreprocessorForCustomTopic(){
-        Sink kafkaSink = new KafkaSink();
         Context context = prepareDefaultContext();
         // configure the static topic
         context.put(Constants.TOPIC, TestConstants.STATIC_TOPIC);
         // configure the preprocessor
         context.put(Constants.PREPROCESSOR, "com.thilinamb.flume.sink.preprocessor.ModifyTopicPreprocessor");
-        Configurables.configure(kafkaSink, context);
-        Channel memoryChannel = new MemoryChannel();
-        Configurables.configure(memoryChannel, context);
-        kafkaSink.setChannel(memoryChannel);
-        kafkaSink.start();
-
         String msg = "custom-topic-test";
-        Transaction tx = memoryChannel.getTransaction();
-        tx.begin();
-        Event event = EventBuilder.withBody(msg.getBytes());
-        memoryChannel.put(event);
-        tx.commit();
-        tx.close();
 
         try {
-            Sink.Status status = kafkaSink.process();
+            Sink.Status status = prepareAndSend(context, msg);
             if (status == Sink.Status.BACKOFF) {
                 fail("Error Occurred");
             }
@@ -184,28 +145,15 @@ public class KafkaSinkTest {
 
     @Test
     public void testPreprocessorForCustomMessageBody(){
-        Sink kafkaSink = new KafkaSink();
         Context context = prepareDefaultContext();
         // configure the static topic
         context.put(Constants.TOPIC, TestConstants.STATIC_TOPIC);
         // configure the preprocessor
         context.put(Constants.PREPROCESSOR, "com.thilinamb.flume.sink.preprocessor.ModifyMessageBodyPreprocessor");
-        Configurables.configure(kafkaSink, context);
-        Channel memoryChannel = new MemoryChannel();
-        Configurables.configure(memoryChannel, context);
-        kafkaSink.setChannel(memoryChannel);
-        kafkaSink.start();
-
         String msg = "original-message-body";
-        Transaction tx = memoryChannel.getTransaction();
-        tx.begin();
-        Event event = EventBuilder.withBody(msg.getBytes());
-        memoryChannel.put(event);
-        tx.commit();
-        tx.close();
 
         try {
-            Sink.Status status = kafkaSink.process();
+            Sink.Status status = prepareAndSend(context, msg);
             if (status == Sink.Status.BACKOFF) {
                 fail("Error Occurred");
             }
@@ -227,6 +175,24 @@ public class KafkaSinkTest {
         context.put("kafka.serializer.class", "kafka.serializer.StringEncoder");
         context.put("kafka.request.required.acks", "1");
         return context;
+    }
+
+    private Sink.Status prepareAndSend(Context context, String msg) throws EventDeliveryException {
+        Sink kafkaSink = new KafkaSink();
+        Configurables.configure(kafkaSink, context);
+        Channel memoryChannel = new MemoryChannel();
+        Configurables.configure(memoryChannel, context);
+        kafkaSink.setChannel(memoryChannel);
+        kafkaSink.start();
+
+        Transaction tx = memoryChannel.getTransaction();
+        tx.begin();
+        Event event = EventBuilder.withBody(msg.getBytes());
+        memoryChannel.put(event);
+        tx.commit();
+        tx.close();
+
+        return kafkaSink.process();
     }
 
 }

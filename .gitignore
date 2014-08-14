@@ -24,3 +24,4 @@ target/
 logs
 impl/log-cleaner.log
 impl/logs
+log-cleaner.log
