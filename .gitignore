@@ -20,3 +20,7 @@ hs_err_pid*
 .idea/
 
 target/
+
+logs
+impl/log-cleaner.log
+impl/logs
