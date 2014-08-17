@@ -23,7 +23,8 @@ limitations under the License.
     <parent>
         <groupId>com.thilinamb.flume</groupId>
         <artifactId>flume-kafka-sink-parent</artifactId>
-        <version>${flume-kafka-sink-version}</version>
+        <version>0.5.0</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>flume-kafka-sink-dist</artifactId>

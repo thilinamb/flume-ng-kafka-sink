@@ -23,7 +23,7 @@ limitations under the License.
     <groupId>com.thilinamb.flume</groupId>
     <artifactId>flume-kafka-sink-parent</artifactId>
     <description>An Apache Flume Sink implementation to publish messages to Apache Kafka 0.8.x.</description>
-    <version>${flume-kafka-sink-version}</version>
+    <version>0.5.0</version>
     <name>Flume Kafka Sink</name>
     <packaging>pom</packaging>
 
@@ -92,8 +92,9 @@ limitations under the License.
     </dependencies>
 
     <properties>
-        <flume-kafka-sink-version>0.5.0</flume-kafka-sink-version>
+        <flume-kafka-sink-version>${project.version}</flume-kafka-sink-version>
         <flume-version>1.5.0</flume-version>
         <kafka-version>0.8.1.1</kafka-version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 </project>
