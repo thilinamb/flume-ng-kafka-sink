@@ -20,8 +20,6 @@ package com.thilinamb.flume.sink.util;
 
 import kafka.server.KafkaConfig;
 import kafka.server.KafkaServerStartable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -31,8 +29,6 @@ import java.util.Properties;
  * Reference: https://gist.github.com/fjavieralba/7930018/
  */
 public class KafkaLocal {
-
-    private static final Logger logger = LoggerFactory.getLogger(KafkaLocal.class);
 
     public KafkaServerStartable kafka;
     public ZooKeeperLocal zookeeper;
@@ -44,16 +40,12 @@ public class KafkaLocal {
         kafka = new KafkaServerStartable(kafkaConfig);
     }
 
-    public void start(){
-        logger.info("Starting the Kafka Broker..");
+    public void start() throws Exception{
         kafka.startup();
-        logger.info("Started the Kafka Broker..");
     }
 
     public void stop(){
-        logger.info("Shutting down the Kafka broker.");
         kafka.shutdown();
-        logger.info("Kafka Server shutdown successfully!");
     }
 
 }

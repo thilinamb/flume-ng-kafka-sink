@@ -189,7 +189,7 @@ public class KafkaSinkTest {
 
     private Context prepareDefaultContext(){ // Prepares a default context with Kafka Server Properties
         Context context = new Context();
-        context.put("kafka.metadata.broker.list", "localhost:9092");
+        context.put("kafka.metadata.broker.list", testUtil.getKafkaServerUrl());
         context.put("kafka.serializer.class", "kafka.serializer.StringEncoder");
         context.put("kafka.request.required.acks", "1");
         return context;

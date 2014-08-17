@@ -16,7 +16,7 @@
  limitations under the License.
  */
 
-package com.thilinamb.flume.sink.util.consumer;
+package com.thilinamb.flume.sink.util;
 
 import kafka.consumer.ConsumerConfig;
 import kafka.consumer.ConsumerIterator;
@@ -47,13 +47,13 @@ public class KafkaConsumer {
 
     public KafkaConsumer() {
         consumer = kafka.consumer.Consumer.createJavaConsumerConnector(
-                createConsumerConfig("localhost:2181", "group_1"));
+                createConsumerConfig(TestUtil.getInstance().getZkUrl(), "group_1"));
     }
 
-    private static ConsumerConfig createConsumerConfig(String a_zookeeper, String a_groupId) {
+    private static ConsumerConfig createConsumerConfig(String zkUrl, String groupId) {
         Properties props = new Properties();
-        props.put("zookeeper.connect", a_zookeeper);
-        props.put("group.id", a_groupId);
+        props.put("zookeeper.connect", zkUrl);
+        props.put("group.id", groupId);
         props.put("zookeeper.session.timeout.ms", "400");
         props.put("zookeeper.sync.time.ms", "200");
         props.put("auto.commit.interval.ms", "1000");
