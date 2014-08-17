@@ -3,6 +3,9 @@
 This is a [Flume](https://flume.apache.org) Sink implementation that can publish data to a [Kafka](http://kafka.apache.org) topic.
 The objective is to integrate Flume with Kafka so that pull based processing systems such as [Apache Storm](https://storm.incubator.apache.org) can process the data coming through various Flume sources such as Syslog.
 
+## Updates
+- Aug 17, 2014 - Unit tests are added and linked with the build.
+
 ## Example Usecase
 Realtime Syslog processing architecture using Apache Flume, Apache Kafka and Apache Storm.
 ![Realtime Syslog Processing](/realtime-syslog-processing-archi.png)
