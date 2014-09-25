@@ -3,6 +3,8 @@
 This is a [Flume](https://flume.apache.org) Sink implementation that can publish data to a [Kafka](http://kafka.apache.org) topic.
 The objective is to integrate Flume with Kafka so that pull based processing systems such as [Apache Storm](https://storm.incubator.apache.org) can process the data coming through various Flume sources such as Syslog.
 
+### This is now a part of the official Flume distribution (from v1.6 onwards) along with significant improvements.
+
 ## Updates
 - Aug 23, 2014 - This implementation is submitted as a new feature to Apache Flume. Associated Jira for this feature - [https://issues.apache.org/jira/browse/FLUME-2251](https://issues.apache.org/jira/browse/FLUME-2251) 
 - Aug 17, 2014 - Unit tests are added and linked with the build.
