@@ -19,6 +19,7 @@
 package com.thilinamb.flume.sink.example;
 
 import com.thilinamb.flume.sink.MessagePreprocessor;
+import com.thilinamb.flume.sink.Constants;
 import org.apache.flume.Context;
 import org.apache.flume.Event;
 
@@ -60,7 +61,9 @@ public class SimpleMessagePreprocessor implements MessagePreprocessor {
      */
     @Override
     public String extractTopic(Event event, Context context) {
-        return context.getString("custom-topic", "default-topic");
+        String customTopicAttribute = Constants.TOPIC;
+        String customTopicName = Constants.DEFAULT_TOPIC;
+        return context.getString(customTopicAttribute, customTopicName);
     }
 
     /**
